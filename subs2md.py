@@ -4,9 +4,14 @@ import sys
 
 def parse_srt(file_path):
     """Extracts subtitle text from an .srt file."""
-    with open(file_path, 'r', encoding='utf-8') as f:
-        content = f.read()
-    
+
+    try:    
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+    except UnicodeDecodeError:
+        with open(file_path, 'r', encoding='latin-1') as f:
+            content = f.read()
+
     # Remove timestamps and numbers
     content = re.sub(r'\d+\n\d{2}:\d{2}:\d{2},\d{3} --> \d{2}:\d{2}:\d{2},\d{3}', '', content)
     
